@@ -15,6 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "projects")
 
+/**
+ * EN: Entity for the projects in my Portfolio website
+ * IT: Entity per i progetti nel mio Portfolio
+ */
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +35,9 @@ public class Project {
     @Column(nullable = false)
     private String img;
 
-    @Column(nullable = false)
+    @ElementCollection
+    @CollectionTable(name = "project_tech",
+            joinColumns = @JoinColumn(name = "project_id"))
     private List<String> tech;
 
     private String link;
