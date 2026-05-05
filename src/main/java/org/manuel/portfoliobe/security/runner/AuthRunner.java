@@ -21,23 +21,17 @@ public class AuthRunner implements ApplicationRunner {
 	@Autowired UserRepository userRepository;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		System.out.println("Run...");
-
 //		// Leggo nel DB se sono già presenti ruoli salvati
 		List<Role> roleList = roleRepository.findAll();
 		if(roleList.isEmpty()) {
 //			// Metodo da lanciare solo la prima volta
 //			// Serve per inizializzare i ruoli nel DB
 			setRoleDefault();
-		} else {
-			System.out.println(roleList);
 		}
 		Role admin =roleRepository.findByRoleName(ERole.ROLE_ADMIN).orElse(null);
 		if( userRepository.findAll().isEmpty() || userRepository.findByRolesContaining(admin).isEmpty()) {
-			System.out.println("Creo admin");
 			setSuperAdmin();
 		}else{
-			System.out.println("Super admin");
 			userRepository.findByRolesContaining(admin).forEach(User -> System.out.println(User.getUsername()) );
 		}
 	}

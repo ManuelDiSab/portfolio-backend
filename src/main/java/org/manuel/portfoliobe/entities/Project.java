@@ -36,11 +36,15 @@ public class Project {
     private String img;
 
     @ElementCollection
+    @Column(nullable = false)
     @CollectionTable(name = "project_tech",
             joinColumns = @JoinColumn(name = "project_id"))
     private List<String> tech;
 
+    // IT: Può essere nullable, se non esiste un sito
+    // EN: It can be nullable, if there's no site
     private String link;
+
     @Column(nullable = false)
     private String github;
 

@@ -24,7 +24,6 @@ public class ProjectMapperImpl implements ProjectMapper {
     public Project mapDtoToEntity(ProjectRequestDto dto, Project entity) {
         entity.setTitolo(dto.getTitolo());
         entity.setDescrizione(dto.getDescrizione());
-        entity.setImg(dto.getImg());
         entity.setTech(dto.getTech());
         entity.setLink(dto.getLink());
         entity.setGithub(dto.getGithub());

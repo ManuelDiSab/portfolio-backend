@@ -54,7 +54,6 @@ public class AuthServiceImpl implements AuthService {
         				loginDto.getUsername(), loginDto.getPassword()
         		)
         ); 
-    	System.out.println(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
@@ -83,7 +82,6 @@ public class AuthServiceImpl implements AuthService {
 	        });
         }
         user.setRoles(roles);
-        System.out.println(user);
         userRepository.save(user);
         return "User registered successfully!.";
     }
@@ -91,7 +89,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User makeAdmin(User user) {
         Role admin =  roleRepository.findByRoleName(ERole.ROLE_ADMIN).orElse(null);
-        System.out.println("ruolo "  + admin);
         user.getRoles().add(admin);
         return userRepository.save(user);
     }

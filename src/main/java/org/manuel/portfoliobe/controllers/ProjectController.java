@@ -1,13 +1,18 @@
 package org.manuel.portfoliobe.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.manuel.portfoliobe.dto.ProjectRequestDto;
 import org.manuel.portfoliobe.entities.Project;
 import org.manuel.portfoliobe.services.ProjectService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/projects")
@@ -29,10 +34,11 @@ public class ProjectController {
 
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> createProject(@RequestBody ProjectRequestDto request) {
-        return new ResponseEntity<>(projectService.saveProject(request), HttpStatus.CREATED);
+    public ResponseEntity<?> createProject(@Valid @RequestPart("project") ProjectRequestDto request,
+        @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        return new ResponseEntity<>(projectService.saveProject(request, file), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -44,12 +50,10 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateProject(@PathVariable Long id, @RequestBody ProjectRequestDto request) {
-        Project project = projectService.findProjectById(id);
-        if(project == null) return   ResponseEntity.notFound().build();
-        project = projectService.saveProject(request);
-        return new ResponseEntity<>(project, HttpStatus.OK);
+    public ResponseEntity<?> updateProject(@PathVariable Long id, @Valid @RequestPart("project") ProjectRequestDto request,
+                                           @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        return new ResponseEntity<>(projectService.updateProject(id, request, file), HttpStatus.OK);
     }
 }
