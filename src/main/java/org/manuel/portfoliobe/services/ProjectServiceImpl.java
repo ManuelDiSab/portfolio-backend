@@ -44,7 +44,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project updateProject(Long id, ProjectRequestDto dto, MultipartFile file) throws IOException {
         Project project = projectRepository.findById(id).orElseThrow( () -> new RuntimeException( "Progetto con id " + id + " non trovato" ) );
-         if(file != null && !file.isEmpty()) {
+        projectMapper.mapDtoToEntity(dto, project);
+        if(file != null && !file.isEmpty()) {
              String fileName = fileService.saveFile(file);
              project.setImg(fileName);
          }
