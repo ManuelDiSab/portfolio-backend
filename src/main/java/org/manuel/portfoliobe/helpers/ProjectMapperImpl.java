@@ -12,12 +12,20 @@ public class ProjectMapperImpl implements ProjectMapper {
 
     @Override
     public ProjectRequestDto toDto(Project project) {
-        return null;
+        if(project==null){ return null; }
+        ProjectRequestDto dto = new ProjectRequestDto();
+        dto.setTitolo(project.getTitolo());
+        dto.setDescrizione(project.getDescrizione());
+        dto.setLink(project.getLink());
+        dto.setTech(project.getTech());
+        dto.setGithub(project.getGithub());
+        return dto;
     }
 
     @Override
     public List<ProjectRequestDto> toDtoList(List<Project> projects) {
-        return List.of();
+        if(projects==null){ return null; }
+        return projects.stream().map(this::toDto).toList();
     }
 
     @Override
