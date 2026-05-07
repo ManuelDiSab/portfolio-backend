@@ -57,6 +57,6 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteProject(Project project) {
         projectRepository.delete(project);
     }
-
+    
 
 }

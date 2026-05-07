@@ -53,7 +53,7 @@ public class ProjectController {
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateProject(@PathVariable Long id, @Valid @RequestPart("project") ProjectRequestDto request,
-                                           @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+                                           @RequestPart("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(projectService.updateProject(id, request, file), HttpStatus.OK);
     }
 }
